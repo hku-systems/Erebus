@@ -28,14 +28,15 @@ object TPCH21DP {
         (p(3).trim.toLong, (p(0).trim.toLong, p(1).trim)))
     //(s_nationkey, (s_suppkey, s_name))
 
-        val lineitem4join = new dpread(spark.sparkContext.textFile(args(2)))
+        val readline = spark.sparkContext.textFile(args(2))
+        val lineitem4join = new dpread(readline)
           .mapDPKV(p => {
             val s = p.split('|')
             (s(0).trim.toLong, (s(2).trim.toLong,  s(12).trim, s(11).trim, 1))
           },args(8).toInt)
         //(l_orderkey, (l_suppkey, l_receiptdate, l_commitdate, 1))
 
-        val line1 = spark.sparkContext.textFile(args(3))
+        val line1 = readline
           .map(_.split('|'))
           .map(p =>
             ( p(0).trim.toLong, (p(2).trim.toLong,  p(12).trim, p(11).trim, 1)))

@@ -33,7 +33,6 @@ import scala.math.exp
   * please refer to org.apache.spark.ml.classification.LogisticRegression.
   */
 object SparkHdfsLRDP {
-  val rand = new Random(42)
 
   case class DataPoint(x: Vector[Double], y: Double)
 
@@ -81,7 +80,7 @@ object SparkHdfsLRDP {
     val points = lines.mapDP(p => parsePoint(p,D1),sr)
 
     // Initialize w to a random value
-    val r = scala.util.Random
+    val r = new Random(1)
     var w = DenseVector.fill(D1)(r.nextDouble)
     //    println("Initial w: " + w)
 

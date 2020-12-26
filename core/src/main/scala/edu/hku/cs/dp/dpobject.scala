@@ -14,8 +14,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.math.{exp, log, pow}
 import scala.util.Random
 /**
-  * Created by lionon on 10/22/18.
-  */
+ * Created by lionon on 10/22/18.
+ */
 class dpobject[T: ClassTag](
                              var inputsample : RDD[T],
                              var inputsample_advance : RDD[T],
@@ -23,17 +23,17 @@ class dpobject[T: ClassTag](
 {
 
   var sample = inputsample //for each element, sample refers to "if this element exists"
-var sample_advance = inputsample_advance
+  var sample_advance = inputsample_advance
   var original = inputoriginal
   var sample_addition = inputsample
 
 
   def mapDP[U: ClassTag](f: T => U): dpobject[U]= {
-        val t1 = System.nanoTime
+    val t1 = System.nanoTime
     val r1 = inputsample.map(f)
     val r2 = sample_advance.map(f)
-        val duration = (System.nanoTime - t1) / 1e9d
-        println("map: " + duration)
+    val duration = (System.nanoTime - t1) / 1e9d
+    println("map: " + duration)
     val r3 = inputoriginal.map(f)
     new dpobject(r1,r2,r3)
   }
@@ -70,8 +70,8 @@ var sample_advance = inputsample_advance
     }
     val result_b = original.sparkContext.broadcast(result)
     var aggregatedResult = result//get the aggregated result
-//    if(!sample.isEmpty())
-//      aggregatedResult = f(sample.reduce(f),result)//get the aggregated result
+    //    if(!sample.isEmpty())
+    //      aggregatedResult = f(sample.reduce(f),result)//get the aggregated result
 
     //    val inner = new ArrayBuffer[V]
     var inner_num = 0
@@ -80,7 +80,7 @@ var sample_advance = inputsample_advance
     val sample_count = s_collect.length //e.g., 64
     val sample_count_b =  sample.sparkContext.broadcast(s_collect)
     //***********samples*********************
-     print("sample count: " + sample_count)
+    print("sample count: " + sample_count)
     val sample_array = sample_count match {
       case a if a == 0 =>
         val only_array = new Array[Double](1)
@@ -96,24 +96,24 @@ var sample_advance = inputsample_advance
           outer_num = 1 //to make sure all k has a sample point
         else
           outer_num = k_distance //outer_num = 10
-      val i = outer_num //i = 10
-      val up_to_index = (sample_count - i).toInt //up_to_index = 8
+        val i = outer_num //i = 10
+        val up_to_index = (sample_count - i).toInt //up_to_index = 8
         val b_i = i // i is the number of layer
         val b_i_b = sample.sparkContext.broadcast(i)
         val n = sample.sparkContext.parallelize((0 to up_to_index - 1).toSeq)// if distance 1, then need 2 differing element here because this layer will not be included into the nieghour array
           .map(p => {
             val upper_array = f(sample_count_b.value.patch(p, Nil, b_i_b.value + 1).reduce(f), result_b.value) //(0 -> 7, 8 -> 15, 16, 24, 32, 40, 48, 56)
-          var neighnout_o = new Array[Double](b_i_b.value) //bi is the number of layer
-          var j = b_i_b.value - 1 //start form 10, minus one because it is an index
-          while (j >= 0) {
-            if(j == b_i_b.value - 1)
-              neighnout_o(j) = f(upper_array, sample_count_b.value(p + j + 1)) //add back 11, so would be 1 to 10
-            else
-              neighnout_o(j) = f(sample_count_b.value(p + j + 1), neighnout_o(j + 1))// upper layer, so j+1
-            j = j - 1
-          }
+            var neighnout_o = new Array[Double](b_i_b.value) //bi is the number of layer
+            var j = b_i_b.value - 1 //start form 10, minus one because it is an index
+            while (j >= 0) {
+              if(j == b_i_b.value - 1)
+                neighnout_o(j) = f(upper_array, sample_count_b.value(p + j + 1)) //add back 11, so would be 1 to 10
+              else
+                neighnout_o(j) = f(sample_count_b.value(p + j + 1), neighnout_o(j + 1))// upper layer, so j+1
+              j = j - 1
+            }
             (p,neighnout_o)
-        }).collect()
+          }).collect()
         n
         if(!n.isEmpty)
           aggregatedResult = f(n.filter(_._1 == 0).head._2(0),s_collect(0))
@@ -139,7 +139,7 @@ var sample_advance = inputsample_advance
           outer_num = 1
         } else
           outer_num = k_distance //outer_num = 10
-      var i = outer_num
+        var i = outer_num
         val up_to_index = (sample_advance_count - i).toInt
         val b_i = i // i is the number of layer
         val b_i_b = sample_advance.sparkContext.broadcast(i)
@@ -387,7 +387,7 @@ var sample_advance = inputsample_advance
     val t1 = System.nanoTime
 
     val all_samp = array._1.flatMap(p => p) ++ array._2.flatMap(p => p)
-    all_samp.foreach(p => println("samp_output: " + p))
+//    all_samp.foreach(p => println("samp_output: " + p))
     val r = new Random()
     var diff = 0.0
     var max_bound = 0.0
@@ -418,7 +418,7 @@ var sample_advance = inputsample_advance
     val t1 = System.nanoTime
 
     val all_samp = (array._1.flatMap(p => p) ++ array._2.flatMap(p => p)).map(p => p(0))
-    all_samp.foreach(p => println("samp_output: " + p))
+//    all_samp.foreach(p => println("samp_output: " + p))
     val r = new Random()
     var diff = 0.0
     var max_bound = 0.0
@@ -449,7 +449,7 @@ var sample_advance = inputsample_advance
     val t1 = System.nanoTime
 
     val all_samp = (array._1.flatMap(p => p) ++ array._2.flatMap(p => p)).map(p => p._1(0))
-    all_samp.foreach(p => println("samp_output: " + p))
+//    all_samp.foreach(p => println("samp_output: " + p))
     val r = new Random()
     var diff = 0.0
     var max_bound = 0.0

@@ -71,7 +71,7 @@ class dpobjectArray[T: ClassTag](
     val t1 = System.nanoTime
 
     val all_samp = array._1.flatMap(p => p) ++ array._2.flatMap(p => p)
-    all_samp.foreach(p => println("samp_output: " + p))
+//    all_samp.foreach(p => println("samp_output: " + p))
     val r = new Random()
     var diff = 0.0
     var max_bound = 0.0

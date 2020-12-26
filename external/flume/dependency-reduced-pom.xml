@@ -195,6 +195,10 @@
           <groupId>oro</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>breeze_2.11</artifactId>
+          <groupId>org.scalanlp</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>pyrolite</artifactId>
           <groupId>net.razorvine</groupId>
         </exclusion>

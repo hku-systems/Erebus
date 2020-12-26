@@ -20,6 +20,6 @@ object count_record {
       .mapDP(p => 1.0)
       .reduceDP(_+_)
 
-    println("final output: " + final_result)
+    println("final output: " + final_result._1)
   }
 }

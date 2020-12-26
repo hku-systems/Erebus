@@ -1,4 +1,4 @@
-package edu.hku.dp
+package edu.hku.dp.original
 
 import edu.hku.cs.dp.dpread
 import org.apache.spark.sql.SparkSession
@@ -6,10 +6,10 @@ import org.apache.spark.sql.SparkSession
 import scala.math.max
 
 /**
-  * TPC-H Query 1
-  * Savvas Savvides <savvas@purdue.edu>
-  *
-  */
+ * TPC-H Query 1
+ * Savvas Savvides <savvas@purdue.edu>
+ *
+ */
 object TPCH21 {
 
   def main(args: Array[String]): Unit = {
@@ -27,7 +27,8 @@ object TPCH21 {
         (p(3).trim.toLong, (p(0).trim.toLong, p(1).trim)))
     //(s_nationkey, (s_suppkey, s_name))
 
-    val lineitem_input = spark.sparkContext.textFile(args(1))
+    val readline = spark.sparkContext.textFile(args(1))
+    val lineitem_input = readline
       .map(_.split('|'))
       .map(p =>
         ( p(0).trim.toLong, (p(2).trim.toLong,  p(12).trim, p(11).trim, 1)))
@@ -37,7 +38,7 @@ object TPCH21 {
       .map(p => (p._2._1,(p._1,p._2._2,p._2._3,p._2._4)))
     //(l_suppkey,(l_orderkey, l_receiptdate, l_commitdate, 4))
 
-    val line1 = spark.sparkContext.textFile(args(2))
+    val line1 = readline
       .map(_.split('|'))
       .map(p =>
         ( p(0).trim.toLong, (p(2).trim.toLong,  p(12).trim, p(11).trim, 1)))
@@ -73,7 +74,7 @@ object TPCH21 {
     //(l_orderkey,(((s_suppkey, s_name),o_orderstatus),(suppkey_count, max)))
 
     val final_result_before_reduce = line1join
-//      .filter(p => p._2._2._1 > 1 || p._2._2._1 == 1)
+      //      .filter(p => p._2._2._1 > 1 || p._2._2._1 == 1)
       //suppkey_count > 1 || suppkey_count == 1
       .map(p => (p._2._1._1._2, (p._1,p._2._1._1._1,p._2._2._1,p._2._2._2)))
       //          //$"s_name", ($"l_orderkey", $"l_suppkey", $"suppkey_count", $"suppkey_max")
@@ -81,6 +82,7 @@ object TPCH21 {
       .map(p => 1.0)
     if(args(5) == "0" || args(5) == "2") {
       val final_result = final_result_before_reduce.reduce((a, b) => a + b)
+      print("output value: " + final_result)
     }
     else if(args(5) == "1" || args(5) == "2") { //1 means print length
       val result_length = final_result_before_reduce.count()

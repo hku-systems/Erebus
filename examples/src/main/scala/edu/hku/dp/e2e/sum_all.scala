@@ -20,6 +20,6 @@ object sum_all {
       .filterDP(p => p <= 1000 - filter_num)
       .reduceDP(_+_)
 
-    println("final output: " + final_result)
+    println("final output: " + final_result._1)
   }
 }

@@ -15,6 +15,10 @@ From: 'an unknown organization'
     License: New BSD License  (http://www.opensource.org/licenses/bsd-license.php)
   - MinLog (https://github.com/EsotericSoftware/minlog) com.esotericsoftware:minlog:bundle:1.3.0
     License: New BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - core (https://github.com/fommil/netlib-java/core) com.github.fommil.netlib:core:jar:1.1.2
+    License: BSD 3 Clause  (http://opensource.org/licenses/BSD-3-Clause)
+  - JTransforms (http://sourceforge.net/projects/jtransforms/) com.github.rwl:jtransforms:jar:2.4.0
+    License: MPL  (http://www.mozilla.org/MPL/2.0/index.txt)    License: LGPL  (http://www.gnu.org/licenses/lgpl-2.1.txt)    License: GPL  (http://www.gnu.org/licenses/gpl-2.0.txt)
   - FindBugs-jsr305 (http://findbugs.sourceforge.net/) com.google.code.findbugs:jsr305:jar:1.3.9
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - JavaEWAH (http://code.google.com/p/javaewah/) com.googlecode.javaewah:JavaEWAH:jar:0.3.2
@@ -57,6 +61,8 @@ From: 'an unknown organization'
     License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - Py4J (http://nexus.sonatype.org/oss-repository-hosting.html/py4j) net.sf.py4j:py4j:jar:0.10.4
     License: The New BSD License  (http://www.opensource.org/licenses/bsd-license.html)
+  - Fortran to Java ARPACK (http://f2j.sourceforge.net) net.sourceforge.f2j:arpack_combined_all:jar:0.1
+    License: The BSD License  (http://www.opensource.org/licenses/bsd-license.php)
   - ANTLR ST4 4.0.4 (http://www.stringtemplate.org) org.antlr:ST4:jar:4.0.4
     License: BSD licence  (http://antlr.org/license.html)
   - Antlr 3.4 Runtime (http://www.antlr.org) org.antlr:antlr-runtime:jar:3.4
@@ -145,6 +151,10 @@ From: 'Apache Software Foundation' (http://www.apache.org)
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - hadoop-yarn-server-common  org.apache.hadoop:hadoop-yarn-server-common:jar:2.6.5
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'com.chuusai' (https://github.com/milessabin/shapeless)
+  - core (https://github.com/milessabin/shapeless) com.chuusai:shapeless_2.11:bundle:2.3.2
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 From: 'com.fasterxml.jackson.module'
   - jackson-module-scala (http://wiki.fasterxml.com/JacksonModuleScala) com.fasterxml.jackson.module:jackson-module-scala_2.11:bundle:2.6.5
@@ -289,6 +299,26 @@ From: 'org.scala-lang.modules' (http://www.scala-lang.org/)
     License: BSD 3-clause  (http://opensource.org/licenses/BSD-3-Clause)
   - scala-xml (http://www.scala-lang.org/) org.scala-lang.modules:scala-xml_2.11:bundle:1.0.2
     License: BSD 3-clause  (http://opensource.org/licenses/BSD-3-Clause)
+
+From: 'org.scalanlp'
+  - breeze-macros (http://scalanlp.org/) org.scalanlp:breeze-macros_2.11:jar:0.13.1
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.html)
+  - breeze (http://scalanlp.org/) org.scalanlp:breeze_2.11:jar:0.13.1
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.html)
+
+From: 'org.spire-math' (http://spire-math.org)
+  - macros (http://spire-math.org) org.spire-math:spire-macros_2.11:jar:0.13.0
+    License: MIT  (http://opensource.org/licenses/MIT)
+  - core (http://spire-math.org) org.spire-math:spire_2.11:jar:0.13.0
+    License: MIT  (http://opensource.org/licenses/MIT)
+
+From: 'org.typelevel' (http://github.com/typelevel/machinist)
+  - machinist (http://github.com/typelevel/machinist) org.typelevel:machinist_2.11:jar:0.6.1
+    License: MIT  (http://opensource.org/licenses/MIT)
+
+From: 'org.typelevel' (https://github.com/milessabin/macro-compat)
+  - core (https://github.com/milessabin/macro-compat) org.typelevel:macro-compat_2.11:jar:1.1.1
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 From: 'QOS.ch' (http://www.qos.ch)
   - JCL 1.1.1 implemented over SLF4J (http://www.slf4j.org) org.slf4j:jcl-over-slf4j:jar:1.7.16

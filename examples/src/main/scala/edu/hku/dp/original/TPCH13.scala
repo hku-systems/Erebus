@@ -1,13 +1,13 @@
-package edu.hku.dp
+package edu.hku.dp.original
 
 import edu.hku.cs.dp.dpread
 import org.apache.spark.sql.SparkSession
 
 /**
-  * TPC-H Query 1
-  * Savvas Savvides <savvas@purdue.edu>
-  *
-  */
+ * TPC-H Query 1
+ * Savvas Savvides <savvas@purdue.edu>
+ *
+ */
 object TPCH13 {
 
   def special(x: String): Boolean = {
@@ -37,7 +37,7 @@ object TPCH13 {
       .join(order_input)
       .map(p => 1.0)
       .reduce(_+_)
-
+    print("output value: " + final_result)
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
     spark.stop()

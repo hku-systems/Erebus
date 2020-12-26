@@ -1,6 +1,5 @@
 package edu.hku.dp.original
 
-import edu.hku.dp.TPCH1.decrease
 import org.apache.spark.sql.SparkSession
 
 object TPCH6 {
@@ -30,7 +29,7 @@ object TPCH6 {
 
     //    println("filtered_result original")
     //    filtered_result.original.collect().foreach(println)
-
+    print("output value: " + filtered_result)
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
     spark.stop()

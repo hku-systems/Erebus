@@ -79,12 +79,13 @@ if wq == "part" or wq == "all":
     output, error = process.communicate()
 
 if wq == "ml" or wq == "all":
-    df = pd.read_csv("data/ds1.10.csv")
+    #http://komarix.org/ac/ds/ds1.10.csv.bz2
+    df = pd.read_csv("./ds1.10.csv")
     maxs = df.max().values
     mins = df.min().values
-    with open("/home/john/tpch-dbgen/data/ml." + str(s),"w") as ins:
+    with open(path,"w") as ins:
         writer = csv.writer(ins, delimiter =",",lineterminator='\n')
-        for rows in range(s):
+        for rows in range(s*100000):
             write_row = []
             for col in range(11):
                 write_row.append(str('%.2f' % random.uniform(maxs[col], mins[col])))

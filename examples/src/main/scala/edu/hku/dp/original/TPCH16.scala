@@ -1,13 +1,13 @@
-package edu.hku.dp
+package edu.hku.dp.original
 
 import edu.hku.cs.dp.dpread
 import org.apache.spark.sql.SparkSession
 
 /**
-  * TPC-H Query 1
-  * Savvas Savvides <savvas@purdue.edu>
-  *
-  */
+ * TPC-H Query 1
+ * Savvas Savvides <savvas@purdue.edu>
+ *
+ */
 object TPCH16 {
 
   def decrease(x: Double, y: Double): Double = {
@@ -59,6 +59,7 @@ object TPCH16 {
       .map(p => 1.0)
       .reduce((a,b) => a + b)
     //      .reduceByKeyDP_Int((a,b) => a + b,"TPCH16DP", args(6).toInt)
+    print("output value: " + final_result)
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
     spark.stop()    //    final_result.collect().foreach(p => print(p._1._1 + "," + p._1._2 + p._1._3 +  ":" + p._2 + "\n"))

@@ -14,36 +14,70 @@ class dpread_c[T: ClassTag](
   var rdd1 : RDD[String])
 {
   var main = rdd1.map(p => {
-    val s = p.split(';')
-    (s(0),s(1).trim.toLong)
+    val s = p.split(";/;")
+    (s(0),s(1).trim.toInt)
   })
 
   def mapDP[U: ClassTag](f: String => U, rate: Int): dpobject_c[U]= {
     val parameters = scala.io.Source.fromFile("security.csv").mkString.split(",")
     val t1 = System.nanoTime
-    val advance_sampling = main.sparkContext.parallelize(main.take(rate))
-    val sampling = main.sparkContext.parallelize(main.take(rate))
+    var advance_sampling = main
+    var sampling = main
+    if (parameters(2).toInt == 1) {
+      advance_sampling = main.sample(false,parameters(4).toDouble,1)
+      sampling = main.sample(false,parameters(4).toDouble,1)
+    }
+    else {
+      advance_sampling = main.sparkContext.parallelize(main.take(rate + parameters(0).toInt))
+      sampling = main.sparkContext.parallelize(main.take(rate + parameters(0).toInt))
+    }
 //    val sampling = main.sparkContext.parallelize(main.take(rate))
-    val duration = (System.nanoTime - t1) / 1e9d
-//    if(parameters(2).toInt == 1)// 1 means tune accuracy
-    new dpobject_c(sampling.map(p => (f(p._1),p._2)), advance_sampling.map(p => f(p._1)), main.subtract(sampling).map(p => (f(p._1),p._2)))
-//    else
-//      new dpobject_c(sampling.map(p => (f(p._1),p._2)), advance_sampling.map(p => f(p._1)), main.map(p => (f(p._1),p._2)))
+      val a = sampling.map(p => (f(p._1),p._2))
+      val b = advance_sampling.map(p => f(p._1))
+      if(parameters(2).toInt == 1)// 1 means tune accuracy
+      {
+          val duration = (System.nanoTime - t1) / 1e9d
+          println("Sampling execution time: " + duration)
+          new dpobject_c(a,b,main.subtract(sampling).map(p => (f(p._1),p._2)))
+      }
+      else
+      {
+        val duration = (System.nanoTime - t1) / 1e9d
+        println("Sampling execution time: " + duration)
+        new dpobject_c(a,b,main.map(p => (f(p._1),p._2)))
+      }
   }
 
 
-//    def mapDPKV[K: ClassTag,V: ClassTag](f: String => (K,V), rate: Int): dpobjectKV_c[K,V]= {
-//      val parameters = scala.io.Source.fromFile("security.csv").mkString.split(",")
-//      val t1 = System.nanoTime
-//      val advance_sampling = main.sparkContext.parallelize(main.take(rate))
+    def mapDPKV[K: ClassTag,V: ClassTag](f: String => (K,V), rate: Int): dpobjectKV_c[K,V]= {
+      val parameters = scala.io.Source.fromFile("security.csv").mkString.split(",")
+      val t1 = System.nanoTime
+      var advance_sampling = main
+      var sampling = main
+      if (parameters(2).toInt == 1) {
+        advance_sampling = main.sample(false,parameters(4).toDouble,1)
+        sampling = main.sample(false,parameters(4).toDouble,1)
+      }
+      else {
+        advance_sampling = main.sparkContext.parallelize(main.take(rate + parameters(0).toInt))
+        sampling = main.sparkContext.parallelize(main.take(rate + parameters(0).toInt))
+      }
 //      val sampling = main.sparkContext.parallelize(main.take(rate))
-////      val sampling = main.sparkContext.parallelize(main.take(rate))
-//      val duration = (System.nanoTime - t1) / 1e9d
-//      if(parameters(2).toInt == 1)// 1 means tune accuracy
-//        new dpobjectKV(sampling.map(p => (f(p._1),p._2)), advance_sampling.map(p => (p => f(p._1)), main.subtract(sampling).map(p => (f(p._1),p._2)))
-//      else
-//        new dpobjectKV(sampling.map(p => (f(p._1),p._2)), advance_sampling.map(p => (p => f(p._1)), main.map(p => (f(p._1),p._2)))
-//    }
+        val a = sampling.map(p => (f(p._1),p._2))
+        val b = advance_sampling.map(p => f(p._1))
+      if(parameters(2).toInt == 1)// 1 means tune accuracy
+      {
+        val duration = (System.nanoTime - t1) / 1e9d
+        println("Sampling execution time: " + duration)
+        new dpobjectKV_c(a,b,main.subtract(sampling).map(p => (f(p._1),p._2)))
+      }
+      else
+      {
+        val duration = (System.nanoTime - t1) / 1e9d
+        println("Sampling execution time: " + duration)
+        new dpobjectKV_c(a,b,main.map(p => (f(p._1),p._2)))
+      }
+    }
 
 //  def mapfilter[U: ClassTag](f: String => U, rate: Int): dpfilter[U]= {
 //    new dpfilter(main.map(f))

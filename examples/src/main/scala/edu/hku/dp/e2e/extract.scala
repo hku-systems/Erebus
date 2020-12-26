@@ -26,6 +26,6 @@ object extract {
       })
       .reduceDP(_+_)
 
-    println("final output: " + final_result)
+    println("final output: " + final_result._1)
   }
 }

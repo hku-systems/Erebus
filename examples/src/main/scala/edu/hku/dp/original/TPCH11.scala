@@ -31,7 +31,7 @@ object TPCH11 {
       .map(_.split('|'))
       .map(p =>
         (p(0).trim.toLong, p(1).trim))
-//      .filter(p => p._2 == "GERMANY")
+      //      .filter(p => p._2 == "GERMANY")
       .map(p => p)
     //n_nationkey, n_name
 
@@ -47,9 +47,8 @@ object TPCH11 {
     val join_partsupp = nation_supplier
       .map(p => (p._2._2,p._1))
       .join(partsupp_input)
-
     val final_result = join_partsupp.map(p => p._2._2).reduce((a,b) => a + b)
-
+    print("output value: " + final_result)
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
     spark.stop()

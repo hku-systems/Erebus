@@ -1,13 +1,13 @@
-package edu.hku.dp
+package edu.hku.dp.original
 
 import edu.hku.cs.dp.dpread
 import org.apache.spark.sql.SparkSession
 
 /**
-  * TPC-H Query 1
-  * Savvas Savvides <savvas@purdue.edu>
-  *
-  */
+ * TPC-H Query 1
+ * Savvas Savvides <savvas@purdue.edu>
+ *
+ */
 object TPCH1 {
 
   def decrease(x: Double, y: Double): Double = {
@@ -42,7 +42,7 @@ object TPCH1 {
       //      .map(case (l_orderkey: Long, l_partkey: Long, l_suppkey: Long, l_linenumber: Long, l_quantity: Double, l_extendedprice: Double, l_discount:Double, l_tax:Double, l_returnflag:String, l_linestatus:String, l_shipdate:String, l_commitdate:String, l_receiptdate:String, l_shipinstruct:String, l_shipmode:String, l_comment:String))
       .filter(_._11 < "1998-09-02")
       .map(p => {
-//        val inter = decrease(p._6,p._7)
+        //        val inter = decrease(p._6,p._7)
         1.0
       })
 
@@ -50,10 +50,12 @@ object TPCH1 {
     //    filtered_result.original.collect().foreach(println)
 
     val final_result = filtered_result.reduce(_+_)
+    print("output value: " + final_result)
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
 
     //    final_result.collect().foreach(p => print(p._1._1 + "," + p._1._2 + ":" + p._2._1 + "," + p._2._2 + "," + p._2._3 + "," + p._2._4 + "," + p._2._5 + "," + p._2._6 + "\n"))
 
+    //simple count, so the greatest sensitivity value is 1
   }
 }

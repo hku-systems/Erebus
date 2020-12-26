@@ -18,15 +18,17 @@
 // scalastyle:off println
 package edu.hku.dp.original
 
+import java.util.Random
+
 import breeze.linalg.{DenseVector, Vector, squaredDistance}
 import org.apache.spark.sql.SparkSession
 
 /**
-  * K-means clustering.
-  *
-  * This is an example implementation for learning how to use Spark. For more conventional use,
-  * please refer to org.apache.spark.ml.clustering.KMeans.
-  */
+ * K-means clustering.
+ *
+ * This is an example implementation for learning how to use Spark. For more conventional use,
+ * please refer to org.apache.spark.ml.clustering.KMeans.
+ */
 object SparkKMeans {
 
   def parseVector(line: String, D: Int): Vector[Double] = {
@@ -81,7 +83,7 @@ object SparkKMeans {
     val data = lines.map(p => parseVector(p,D))
 
 
-    val r = scala.util.Random
+    val r = new Random(1)
     var kPoints =  Array.fill(K)(Vector.fill(D)(r.nextDouble))
 
     for (i <- 1 to ITERATIONS) {
@@ -100,6 +102,7 @@ object SparkKMeans {
           val value = new_centroid.map(_._2)
             .reduce((a, b) => (a._1 + b._1, a._2 + b._2))
           newPoints += (j -> value._1.map(p => p / value._2))
+          print("output value: " + value._1(0))
         }
       }
 

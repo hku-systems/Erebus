@@ -32,7 +32,6 @@ import scala.math.exp
  * please refer to org.apache.spark.ml.classification.LogisticRegression.
  */
 object SparkHdfsLR {
-  val rand = new Random(42)
 
   case class DataPoint(x: Vector[Double], y: Double)
 
@@ -78,18 +77,18 @@ object SparkHdfsLR {
     val points = lines.map(p => parsePoint(p,D))
 
     // Initialize w to a random value
-    val r = scala.util.Random
+    val r = new Random(1)
     var w = DenseVector.fill(D)(r.nextDouble)
-//    println("Initial w: " + w)
+    //    println("Initial w: " + w)
 
     for (i <- 1 to ITERATIONS) {
-//      println("On iteration " + i)
+      //      println("On iteration " + i)
       val gradient = points.map { p =>
         p.x * (1 / (1 + exp(-p.y * (w.dot(p.x)))) - 1) * p.y
       }.reduce(_ + _)
       w -= gradient
+      print("output value: " + gradient(0))
     }
-
     val duration = (System.nanoTime - t1) / 1e9d
     println("Execution time: " + duration)
     spark.stop()
